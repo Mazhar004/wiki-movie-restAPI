@@ -14,6 +14,12 @@
 - `pip install --upgrade setuptools`
 - `pip install -r requirements.txt`
 
+### Database Setup
+- `sudo apt-get install mongodb`
+- Go to project root folder **cefalo_assignment_mazhar**
+    - `mkdir -p data/db`
+    - Run command `mongod --dbpath data/db`
+
 
 ## Run the Program
 ### Data Parsing

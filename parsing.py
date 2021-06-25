@@ -5,7 +5,7 @@ import unicodedata
 import json
 
 class Parsing:
-    count = 0
+    count = 1
     def __init__(self):
         self.all_movie_data = []
 
@@ -48,10 +48,11 @@ class Parsing:
                             temp = self.parse_movie(temp["Link"], temp)
                         else:
                             temp["Link"] = "Not available"
-
+                        
+                        temp['_id'] = Parsing.count
                         self.all_movie_data.append(temp)
                         Parsing.count+=1
-                        if Parsing.count==40:
+                        if Parsing.count==3:
                             break
 
     def parse_movie(self,baseurl, temp=None):
@@ -86,8 +87,5 @@ class Parsing:
         return temp
 
     def __getitem__(self, index):
+        # Access data like dictionary. Such as obj[0]
         return self.all_movie_data[index]
-
-    def save(self,filename="sample.json"):
-        with open(filename,'w') as fh:
-            fh.write(json.dumps(self.all_movie_data))
