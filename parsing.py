@@ -2,14 +2,15 @@ import requests as rq
 from bs4 import BeautifulSoup as bbs
 
 import unicodedata
-import json
+
 
 class Parsing:
     count = 1
+
     def __init__(self):
         self.all_movie_data = []
 
-    def get_url_data(self,baseurl):
+    def get_url_data(self, baseurl):
         # Hit on a given url and fetch data
         res = rq.get(baseurl)
         res_data = None
@@ -48,14 +49,14 @@ class Parsing:
                             temp = self.parse_movie(temp["Link"], temp)
                         else:
                             temp["Link"] = "Not available"
-                        
+
                         temp['_id'] = Parsing.count
                         self.all_movie_data.append(temp)
-                        Parsing.count+=1
-                        if Parsing.count==3:
+                        Parsing.count += 1
+                        if Parsing.count == 41:
                             break
 
-    def parse_movie(self,baseurl, temp=None):
+    def parse_movie(self, baseurl, temp=None):
         # Specific Movie detail info parsing
         if temp == None:
             temp = {}
@@ -64,7 +65,7 @@ class Parsing:
         except:
             res_data = None
             print("Webpage did not responding")
-        
+
         if res_data:
             table_data = res_data.find("table", {"class": "infobox vevent"})
             if table_data:
