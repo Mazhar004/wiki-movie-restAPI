@@ -9,7 +9,8 @@ from rating import *
 
 
 class MovieKey(Resource):
-    def get(self, movie_id):
+    @staticmethod
+    def get(movie_id):
         movie = mongo.db.wiki_movie.find_one({"_id": movie_id})
         if movie:
             try:
@@ -36,7 +37,8 @@ class MovieKey(Resource):
 
 
 class MoviePage(Resource):
-    def get(self):
+    @staticmethod
+    def get():
         count = int(request.args["count"])
         page = int(request.args["page"])
 

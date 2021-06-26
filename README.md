@@ -20,7 +20,14 @@
     - `mkdir -p data/db`
     - Run database
         - `mongod --dbpath data/db`
-        - **MONGODB_PORT may be vary, You can find it in terminal & replace it in follwing file**
+            - If any error occurred
+                - `sudo lsof -iTCP -sTCP:LISTEN -n -P`
+                - Find **PID** of **mongod**
+                - `sudo kill <mongo_command_pid>`
+                    - Example: For my computer `sudo kill 33283`
+                - Then run again
+                    - `mongod --dbpath data/db`
+        - **MONGODB_PORT may be varied, You can find it in terminal & replace it in following file**
         - **.env**
     - **Make sure MONGODB database status is active after running this command**
 

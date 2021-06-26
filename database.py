@@ -6,7 +6,8 @@ class Database:
     def __init__(self):
         self.collection = self.configuration()
 
-    def configuration(self):
+    @staticmethod
+    def configuration():
         host = config("MONGODB_HOST")
         port = int(config("MONGODB_PORT"))
         db_name = config("DB_NAME")

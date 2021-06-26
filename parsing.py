@@ -10,7 +10,8 @@ class Parsing:
     def __init__(self):
         self.all_movie_data = []
 
-    def get_url_data(self, baseurl):
+    @staticmethod
+    def get_url_data(baseurl):
         # Hit on a given url and fetch data
         res = rq.get(baseurl)
         res_data = None
@@ -38,7 +39,7 @@ class Parsing:
                     cell_data = i.findAll("td")
                     if cell_data:
                         try:
-                            link = primary_link+cell_data[0].find("a")["href"]
+                            link = primary_link + cell_data[0].find("a")["href"]
                         except:
                             link = None
                         film, year, awards, nomination = [
@@ -53,11 +54,10 @@ class Parsing:
                         temp["_id"] = Parsing.count
                         self.all_movie_data.append(temp)
                         Parsing.count += 1
-                        print(temp["Link"])
 
     def parse_movie(self, baseurl, temp=None):
         # Specific Movie detail info parsing
-        if temp == None:
+        if temp is None:
             temp = {}
         try:
             _, res_data = self.get_url_data(baseurl)
