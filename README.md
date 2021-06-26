@@ -44,6 +44,9 @@
             - [http://127.0.0.1:5000/movie?count=25&page=2](http://127.0.0.1:5000/movie?count=25&page=2)
             - Second page show movie data from 26-40
 
+### Phase 4 (Optional)
+- Update the API data in database during hit on movie api which match with given csv files
+
 
 
 

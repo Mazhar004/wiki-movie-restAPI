@@ -13,7 +13,8 @@ if __name__ == "__main__":
 
         movie_database = Database()
         movie_database.collection.drop()
-        movie_database.collection.insert_many(data_parsing.all_movie_data)
+        movie_database.collection.insert_many(
+            data_parsing.all_movie_data)
 
     elif sys.argv[1].lower() == 'server':
-        app.run(debug=False)
+        app.run(debug=True)
