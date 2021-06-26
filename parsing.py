@@ -50,11 +50,10 @@ class Parsing:
                         else:
                             temp["Link"] = "Not available"
 
-                        temp['_id'] = Parsing.count
+                        temp["_id"] = Parsing.count
                         self.all_movie_data.append(temp)
                         Parsing.count += 1
-                        if Parsing.count == 10:
-                            break
+                        print(temp["Link"])
 
     def parse_movie(self, baseurl, temp=None):
         # Specific Movie detail info parsing
@@ -84,14 +83,14 @@ class Parsing:
                                         "NFKD", j.split("[")[0].strip())
                                     if j:
                                         temp_val.append(j)
-                                
+
                                 not_allow = ''''/\."$*<>:|?'''
                                 for i in not_allow:
-                                    key = key.replace(i, '')
+                                    key = key.replace(i, "")
                                 key = key.strip()
-                                
+
                                 if key:
-                                    temp[key] = ', '.join(temp_val)
+                                    temp[key] = ", ".join(temp_val)
         return temp
 
     def __getitem__(self, index):

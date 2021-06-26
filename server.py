@@ -7,19 +7,21 @@ import copy
 # Custom
 from rating import *
 
+
 class MovieKey(Resource):
     def get(self, movie_id):
         movie = mongo.db.wiki_movie.find_one({"_id": movie_id})
         if movie:
             try:
-               movie["Rating"]
+                movie["Rating"]
             except:
                 movie_name = movie["Film"].lower()
                 year = movie["Year"]
-                rating_val, rating_givers = rating_obj.get_rating_data(movie_name, year)
+                rating_val, rating_givers = rating_obj.get_rating_data(
+                    movie_name, year)
                 if rating_val:
                     old_movie = copy.deepcopy(movie)
-                    rating_val = round(rating_val,2)
+                    rating_val = round(rating_val, 2)
                     movie["Rating"] = rating_val
                     movie["Rating Givers"] = int(rating_givers)
 
@@ -54,10 +56,11 @@ class MoviePage(Resource):
                 except:
                     movie_name = i["Film"].lower()
                     year = i["Year"]
-                    rating_val, rating_givers = rating_obj.get_rating_data(movie_name, year)
+                    rating_val, rating_givers = rating_obj.get_rating_data(
+                        movie_name, year)
                     if rating_val:
                         old_movie = copy.deepcopy(i)
-                        rating_val = round(rating_val,2)
+                        rating_val = round(rating_val, 2)
                         i["Rating"] = rating_val
                         i["Rating Givers"] = int(rating_givers)
 

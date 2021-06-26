@@ -22,6 +22,7 @@
         - `mongod --dbpath data/db`
         - **MONGODB_PORT may be vary, You can find it in terminal & replace it in follwing file**
         - **.env**
+    - **Make sure MONGODB database status is active after running this command**
 
 
 ## Run the Program
@@ -29,7 +30,7 @@
 - `python application.py parse`
 ### RestFul API
 - Run the API server
-    - `python application.py server`
+    - `python application.py serve`
 - You can call the api by following get method from directly browser
     - **Port number may be vary from your side, You can find it in terminal**
     - [http://localhost:5000/movie/12](http://localhost:5000/movie/12)
@@ -39,13 +40,14 @@
         - page = Page Number
         - Example:
             - Suppose we have total 40 movie data in our database
-            - [http://127.0.0.1:5000/movie?count=25&page=1](http://127.0.0.1:5000/movie?count=25&page=1)
+            - [http://localhost:5000/movie?count=25&page=1](http://localhost:5000/movie?count=25&page=1)
             - First page show movie data from 1-25
-            - [http://127.0.0.1:5000/movie?count=25&page=2](http://127.0.0.1:5000/movie?count=25&page=2)
+            - [http://localhost:5000/movie?count=25&page=2](http://localhost:5000/movie?count=25&page=2)
             - Second page show movie data from 26-40
 
 ### Phase 4 (Optional)
 - Update the API data in database during hit on movie api which match with given csv files
+    - [http://localhost:5000/movie/35](http://localhost:5000/movie/35)
 
 
 

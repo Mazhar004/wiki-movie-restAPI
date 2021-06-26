@@ -7,7 +7,7 @@ from database import *
 
 
 if __name__ == "__main__":
-    if sys.argv[1].lower() == 'parse':
+    if sys.argv[1].lower() == "parse":
         data_parsing = Parsing()
         data_parsing.parse_movie_list()
 
@@ -16,5 +16,5 @@ if __name__ == "__main__":
         movie_database.collection.insert_many(
             data_parsing.all_movie_data)
 
-    elif sys.argv[1].lower() == 'server':
-        app.run(debug=True)
+    elif sys.argv[1].lower() == "serve":
+        app.run(debug=False)
