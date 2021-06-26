@@ -30,12 +30,12 @@ class MovieRating:
             movies_csv_value = self.movies_csv.values
             temp_movie_data = []
             for i in movies_csv_value:
-                movieId, title, genres = i.tolist()
+                movie_id, title, genres = i.tolist()
                 film, year = " ".join(title.split(
                     "(")[:-1]).strip().lower(), title.split("(")[-1].replace(")", "").strip()
                 try:
                     temp_movie_data.append(
-                        [film, year, genres, average.loc[movieId], total.loc[movieId]])
+                        [film, year, genres, average.loc[movie_id], total.loc[movie_id]])
                 except:
                     pass
             process_rating = pd.DataFrame(

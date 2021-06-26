@@ -8,6 +8,23 @@ import copy
 from rating import *
 
 
+def get_update_rating(movie):
+    movie_name = movie["Film"].lower()
+    year = movie["Year"]
+    rating_val, rating_givers = rating_obj.get_rating_data(
+        movie_name, year)
+    if rating_val:
+        old_movie = copy.deepcopy(movie)
+        rating_val = round(rating_val, 2)
+        movie["Rating"] = rating_val
+        movie["Rating Givers"] = int(rating_givers)
+
+        new_values = {"$set": movie}
+        mongo.db.wiki_movie.update_one(
+            old_movie, new_values)
+    return movie
+
+
 class MovieKey(Resource):
     @staticmethod
     def get(movie_id):
@@ -16,19 +33,7 @@ class MovieKey(Resource):
             try:
                 movie["Rating"]
             except:
-                movie_name = movie["Film"].lower()
-                year = movie["Year"]
-                rating_val, rating_givers = rating_obj.get_rating_data(
-                    movie_name, year)
-                if rating_val:
-                    old_movie = copy.deepcopy(movie)
-                    rating_val = round(rating_val, 2)
-                    movie["Rating"] = rating_val
-                    movie["Rating Givers"] = int(rating_givers)
-
-                    newvalues = {"$set": movie}
-                    mongo.db.wiki_movie.update_one(
-                        old_movie, newvalues)
+                movie = get_update_rating(movie)
 
             movie = jsonify(movie)
             return movie
@@ -42,11 +47,11 @@ class MoviePage(Resource):
         count = int(request.args["count"])
         page = int(request.args["page"])
 
-        start = count*(page-1)+1
-        end = count*page
+        start = count * (page - 1) + 1
+        end = count * page
 
         temp = []
-        for i in range(start, end+1):
+        for i in range(start, end + 1):
             temp.append(i)
 
         all_movie_data = mongo.db.wiki_movie.find({"_id": {"$in": temp}})
@@ -56,19 +61,7 @@ class MoviePage(Resource):
                 try:
                     i["Rating"]
                 except:
-                    movie_name = i["Film"].lower()
-                    year = i["Year"]
-                    rating_val, rating_givers = rating_obj.get_rating_data(
-                        movie_name, year)
-                    if rating_val:
-                        old_movie = copy.deepcopy(i)
-                        rating_val = round(rating_val, 2)
-                        i["Rating"] = rating_val
-                        i["Rating Givers"] = int(rating_givers)
-
-                        newvalues = {"$set": i}
-                        mongo.db.wiki_movie.update_one(
-                            old_movie, newvalues)
+                    i = get_update_rating(i)
                 process_all_movie_data.append(i)
             process_all_movie_data = jsonify(process_all_movie_data)
             return process_all_movie_data

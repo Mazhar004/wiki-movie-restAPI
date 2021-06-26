@@ -1,5 +1,5 @@
 import requests as rq
-from bs4 import BeautifulSoup as bbs
+from bs4 import BeautifulSoup as Bbs
 
 import unicodedata
 
@@ -16,7 +16,7 @@ class Parsing:
         res = rq.get(baseurl)
         res_data = None
         if res:
-            res_data = bbs(res.text, "html.parser")
+            res_data = Bbs(res.text, "html.parser")
 
         return res, res_data
 
@@ -26,6 +26,7 @@ class Parsing:
             _, res_data = self.get_url_data(baseurl)
         except:
             res_data = None
+            print("Baseurl {}".format(baseurl))
             print("Webpage did not responding")
 
         if res_data:
@@ -63,6 +64,7 @@ class Parsing:
             _, res_data = self.get_url_data(baseurl)
         except:
             res_data = None
+            print("Baseurl {}".format(baseurl))
             print("Webpage did not responding")
 
         if res_data:
@@ -84,9 +86,9 @@ class Parsing:
                                     if j:
                                         temp_val.append(j)
 
-                                not_allow = ''''/\."$*<>:|?'''
-                                for i in not_allow:
-                                    key = key.replace(i, "")
+                                not_allow = '''/\."'$*<>:|?'''
+                                for j in not_allow:
+                                    key = key.replace(j, "")
                                 key = key.strip()
 
                                 if key:
