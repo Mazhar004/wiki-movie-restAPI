@@ -42,8 +42,7 @@ class Parsing:
                     cell_data = i.findAll("td")
                     if cell_data:
                         try:
-                            link = primary_link + \
-                                   cell_data[0].find("a")["href"]
+                            link = primary_link + cell_data[0].find("a")["href"]
                         except:
                             link = None
                         film, year, awards, nomination = [
@@ -59,7 +58,7 @@ class Parsing:
                         self.all_movie_data.append(temp)
                         Parsing.count += 1
         end = time.time()
-        print("Number of element parsed: ", Parsing.count)
+        print("Number of element parsed: ", Parsing.count-1)
         print("Parsing time: ", end - start)
 
     def parse_movie(self, baseurl, temp=None):
