@@ -1,11 +1,16 @@
 import pandas as pd
 import ssl
+import copy
 
-ssl._create_default_https_context = ssl._create_unverified_context
+# Custom
+from database import *
 
 
 class MovieRating:
+    ssl._create_default_https_context = ssl._create_unverified_context
+
     def __init__(self):
+        self.db_object = Database()
         self.movies_csv = self.read_csv(
             "https://school.cefalolab.com/assignment/python/movies.csv")
 
@@ -42,18 +47,31 @@ class MovieRating:
                 temp_movie_data, columns=["film", "year", "genres", "rating", "rating_givers"])
         return process_rating
 
-    def get_rating_data(self, movie_name, year):
-        rating_val = None
-        rating_givers = None
+    def add_rating_data(self):
         if isinstance(self.process_rating, pd.DataFrame):
-            common_name = self.process_rating[self.process_rating.film == movie_name.lower(
-            )]
-            if common_name.shape[0]:
-                if common_name.shape[0] == 1:
-                    rating_val, rating_givers = common_name.iloc[0].values[-2:]
-                else:
-                    common_data = common_name[common_name.year == year]
-                    if common_data.shape[0]:
-                        rating_val, rating_givers = common_data.values[0][-2:]
+            values = self.process_rating.values
+            for i in values:
+                movie_name, year, _, rating, rating_givers = i
+                movie_name = movie_name.lower()
 
-        return rating_val, rating_givers
+                similar_movie = self.db_object.collection.find(
+                    {'Film': movie_name, "Year": year})
+
+                for j in similar_movie:
+                    if j["Year"] == year:
+                        self.rating_update(
+                            j, {'rating': rating, 'rating givers': rating_givers})
+
+    def rating_update(self, movie_data, new_data):
+        old_movie = copy.deepcopy(movie_data)
+        rating_val = round(new_data["rating"], 2)
+        movie_data["Rating"] = rating_val
+        movie_data["Rating Givers"] = int(new_data["rating givers"])
+
+        new_values = {"$set": movie_data}
+        self.db_object.collection.update_one(old_movie, new_values)
+
+
+if __name__ == "__main__":
+    rating_obj = MovieRating()
+    rating_obj.add_rating_data()

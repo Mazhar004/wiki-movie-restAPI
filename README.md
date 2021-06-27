@@ -30,6 +30,7 @@
         - **MONGODB_PORT may be varied, You can find it in terminal & replace it in following file**
         - **.env**
     - **Make sure MONGODB database status is active after running this command**
+- **All script below require Database Server Running**
 
 
 ## Run the Program
@@ -53,8 +54,12 @@
             - Second page show movie data from 26-40
 
 ### Phase 4 (Optional)
-- Update the API data in database during hit on movie api which match with given csv files
-    - [http://localhost:5000/movie/35](http://localhost:5000/movie/35)
+- Check the url before running the script
+    - [http://localhost:5000/movie/39](http://localhost:5000/movie/39)
+- Now run the **movie_update.py**
+    - `python movie_update.py`
+- Check again the url (Data updated)
+    - [http://localhost:5000/movie/39](http://localhost:5000/movie/39)
 
 
 

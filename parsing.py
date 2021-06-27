@@ -2,6 +2,7 @@ import requests as rq
 from bs4 import BeautifulSoup as Bbs
 
 import unicodedata
+import time
 
 
 class Parsing:
@@ -22,6 +23,7 @@ class Parsing:
 
     def parse_movie_list(self, baseurl="https://en.wikipedia.org/wiki/List_of_Academy_Award-winning_films"):
         # Movie List,Link and additional info parsing
+        start = time.time()
         try:
             _, res_data = self.get_url_data(baseurl)
         except:
@@ -40,12 +42,13 @@ class Parsing:
                     cell_data = i.findAll("td")
                     if cell_data:
                         try:
-                            link = primary_link + cell_data[0].find("a")["href"]
+                            link = primary_link + \
+                                   cell_data[0].find("a")["href"]
                         except:
                             link = None
                         film, year, awards, nomination = [
                             j.text.strip() for j in cell_data]
-                        temp = {"Link": link, "Film": film, "Year": year,
+                        temp = {"Link": link, "Film": film.lower(), "Year": year,
                                 "Awards": awards, "Nomination": nomination}
                         if link:
                             temp = self.parse_movie(temp["Link"], temp)
@@ -55,6 +58,9 @@ class Parsing:
                         temp["_id"] = Parsing.count
                         self.all_movie_data.append(temp)
                         Parsing.count += 1
+        end = time.time()
+        print("Number of element parsed: ", Parsing.count)
+        print("Parsing time: ", end - start)
 
     def parse_movie(self, baseurl, temp=None):
         # Specific Movie detail info parsing
