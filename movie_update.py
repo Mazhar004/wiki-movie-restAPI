@@ -1,6 +1,7 @@
 import pandas as pd
 import ssl
 import copy
+import os
 
 # Custom
 from database import *
@@ -23,7 +24,8 @@ class MovieRating:
         try:
             csv = pd.read_csv(filename)
         except:
-            csv = None
+            csv = pd.read_csv(os.path.join(
+                "resource", "csv_data", filename.split('/')[-1]))
         return csv
 
     def rating_prepare(self):
